@@ -121,42 +121,42 @@ export default function CompanyProfile() {
               </div>
 
               <p className="text-gray-700 mb-6 text-lg leading-relaxed">
-                Dopamine Medica adalah perusahaan kesehatan yang berdedikasi untuk menyediakan
-                edukasi dan solusi kesehatan berkualitas tinggi untuk masyarakat Indonesia.
-                Kami bekerja sama dengan berbagai ahli medis untuk memberikan informasi yang
-                akurat dan terpercaya melalui program edukasi berkelanjutan.
+                Dopamine Medica Indonesia is a company engaged in healthcare, medical education, scientific support, and the distribution of medical and laboratory supplies. We are committed to supporting the advancement of healthcare services through innovation, continuous education, and collaboration with healthcare professionals, medical institutions, laboratories, and various strategic partners.
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-purple-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-purple-600 mb-2">Program Kami</h3>
+                  <h3 className="font-bold text-purple-600 mb-2">Our Program</h3>
                   <p className="text-gray-600 text-sm">
-                    Webinar, seminar, dan workshop kesehatan untuk edukasi masyarakat
+                    Our programs include medical webinars and workshops, healthcare education platforms, scientific research support, laboratory and medical supply distribution, clinical collaboration projects, and continuous professional development initiatives for healthcare professionals
                   </p>
                 </div>
                 <div className="bg-purple-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-purple-600 mb-2">Kolaborasi</h3>
+                  <h3 className="font-bold text-purple-600 mb-2">Collaboration</h3>
                   <p className="text-gray-600 text-sm">
-                    Kerjasama dengan dokter spesialis dan institusi kesehatan
+                    We collaborate with industry partners including biopharmaceutical companies, hospitals, healthcare clinics, laboratories, universities, and research organizations in areas such as preclinical and clinical research, laboratory testing services, national and international grant-based research, medical instrument distribution, scientific publications and book publishing, webinars and symposiums, community service programs, as well as professional training and continuous medical education initiatives.
                   </p>
                 </div>
               </div>
 
               <div className="space-y-2 text-gray-600 mb-6">
                 <p className="flex items-center gap-2">
-                  <span className="text-purple-500">✓</span> Provider edukasi kesehatan terpercaya
+                  <span className="text-purple-500">✓</span> Medical publishing & scientific content development, including medical books, guideline books, health education materials, scientific journals, SOPs, manuals, and digital healthcare content.
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-purple-500">✓</span> Kolaborasi dengan dokter spesialis
+                  <span className="text-purple-500">✓</span> Organization of medical events & scientific meetings such as webinars, seminars, workshops, conferences, symposiums, exhibitions, medical gatherings, and CME/CPD activities.
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-purple-500">✓</span> Program webinar dan seminar kesehatan
+                  <span className="text-purple-500">✓</span> Training & healthcare education programs for healthcare professionals, laboratories, pharmacy, medical devices, genomics, precision medicine, ultrasonography, and wellness therapy.
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-purple-500">✓</span> Komitmen pada peningkatan kualitas hidup pasien
+                  <span className="text-purple-500">✓</span> Healthcare support & medical scientific services, including preventive health program assistance, laboratory and genomic interpretation guidelines, healthcare consultations, and scientific support services.
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-purple-500">✓</span> Akses informasi kesehatan yang mudah dan gratis
+                  <span className="text-purple-500">✓</span> Preclinical and clinical research projects conducted through our dedicated research institution, Dopamine Science Institute, including collaborative research, scientific development, and grant-based national and international research initiatives.
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="text-purple-500">✓</span> Distribution of medical & laboratory products, including pharmaceutical products, traditional medicine, laboratory instruments, medical devices, reagents, consumables, and laboratory supplies.
                 </p>
               </div>
 
