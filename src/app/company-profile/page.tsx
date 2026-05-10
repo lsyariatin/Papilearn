@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 
 export default function CompanyProfile() {
   const besinsVideoUrl = ""; // Add Google Drive link here
-  const dopamineVideoUrl = ""; // Add Google Drive link here
+  const dopamineVideoUrl = "https://drive.google.com/file/d/1x8xea_LN28IWvmmeV2rmuiRTgvrjfnEs/view?usp=drive_link"; // Add Google Drive link here
 
   const getGoogleDrivePreviewUrl = (url: string) => {
     const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
