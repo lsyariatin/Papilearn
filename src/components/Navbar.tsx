@@ -25,7 +25,7 @@ export default function Navbar() {
 
       <div className="flex flex-wrap justify-center gap-2 md:gap-4 text-sm md:text-base">
         <Link href="/" className={getLinkClass("/")}>Home</Link>
-        <Link href="/detail" className={getLinkClass("/detail")}>PAPI-LEARN-LMS</Link>
+        <Link href="/detail" className={getLinkClass("/detail")}>Webinar Series</Link>
         <Link href="/company-profile" className={getLinkClass("/company-profile")}>Company Profile</Link>
         {isAdmin && (
           <>
