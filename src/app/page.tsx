@@ -21,7 +21,7 @@ export default function Home() {
           href="/detail"
           className="bg-primary text-white px-6 py-3 rounded-xl"
         >
-          View Schedule
+          Papilearn-LMS
         </Link>
       </div>
 
