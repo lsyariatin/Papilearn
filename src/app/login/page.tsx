@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -22,16 +23,9 @@ export default function Login() {
 
   return (
     <div className="bg-pink-50 min-h-screen">
-      <div className="flex justify-center items-center h-screen">
+      <Navbar />
+      <div className="flex justify-center items-center h-[calc(100vh-80px)]">
         <div className="bg-white p-10 rounded shadow w-96">
-          <div className="mb-4">
-            <button
-              onClick={() => router.back()}
-              className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
-            >
-              ← Back
-            </button>
-          </div>
           <h2 className="text-xl font-bold mb-3">Admin Login</h2>
           {error && <p className="text-red-500 mb-3">{error}</p>}
           <form onSubmit={handleSubmit}>
