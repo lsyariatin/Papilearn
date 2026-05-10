@@ -21,31 +21,41 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-white p-10 rounded shadow w-96">
-        <h2 className="text-xl font-bold mb-3">Admin Login</h2>
-        {error && <p className="text-red-500 mb-3">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <input
-            className="border p-2 mb-2 w-full"
-            placeholder="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className="border p-2 mb-2 w-full"
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button className="bg-primary text-white px-4 py-2 w-full rounded">
-            Login
-          </button>
-        </form>
+    <div className="bg-pink-50 min-h-screen">
+      <div className="flex justify-center items-center h-screen">
+        <div className="bg-white p-10 rounded shadow w-96">
+          <div className="mb-4">
+            <button
+              onClick={() => router.back()}
+              className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
+            >
+              ← Back
+            </button>
+          </div>
+          <h2 className="text-xl font-bold mb-3">Admin Login</h2>
+          {error && <p className="text-red-500 mb-3">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <input
+              className="border p-2 mb-2 w-full"
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className="border p-2 mb-2 w-full"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button className="bg-primary text-white px-4 py-2 w-full rounded">
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
