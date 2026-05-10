@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (email: string, password: string) => {
-    if (email === "admin@papilocare.com" && password === "admin123") {
+    if (email === "admin@papilocare.com" && password === "@Dopaminemedica123") {
       setIsAdmin(true);
       localStorage.setItem("isAdmin", "true");
       return true;

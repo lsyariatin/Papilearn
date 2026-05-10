@@ -2,21 +2,49 @@
 
 import { useState, useEffect, use } from "react";
 import Navbar from "@/components/Navbar";
+import { supabase } from "@/lib/supabase";
 import { sessions as defaultSessions } from "@/data/mock";
 
 export default function SessionDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const [sessions, setSessions] = useState(defaultSessions);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const session = sessions.find((s) => s.id === Number(resolvedParams.id));
 
   useEffect(() => {
-    const stored = localStorage.getItem("sessions");
-    if (stored) {
-      const loaded = JSON.parse(stored);
-      setSessions(loaded);
-    }
+    loadSessions();
   }, [resolvedParams.id]);
+
+  const loadSessions = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('*')
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      
+      if (data && data.length > 0) {
+        setSessions(data);
+      } else {
+        // Fallback to default sessions
+        setSessions(defaultSessions);
+      }
+    } catch (error) {
+      console.error('Error loading sessions:', error);
+      // Fallback to localStorage or default
+      const stored = localStorage.getItem("sessions");
+      if (stored) {
+        setSessions(JSON.parse(stored));
+      } else {
+        setSessions(defaultSessions);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getGoogleDrivePreviewUrl = (url: string) => {
     const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -39,6 +67,14 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
   const closePreview = () => {
     setPreviewUrl(null);
   };
+
+  if (loading) {
+    return (
+      <div className="bg-pink-50 min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (!session) return <div className="p-10">Not found</div>;
 

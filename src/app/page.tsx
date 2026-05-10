@@ -41,8 +41,8 @@ export default function Home() {
       {/* IMAGE SECTION */}
       <div className="flex justify-center pb-10">
         <img
-          src="/hero.png"
-          className="rounded-xl shadow w-[500px]"
+          src="/hero.jpeg"
+          className="rounded-xl shadow w-full h-auto"
           alt="About"
         />
       </div>

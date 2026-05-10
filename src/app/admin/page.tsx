@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { sessions as defaultSessions } from "@/data/mock";
+import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
 
 const CLOUDINARY_CLOUD_NAME = "drlopxaai";
@@ -15,30 +16,81 @@ export default function AdminDashboard() {
   const [sessionList, setSessionList] = useState(defaultSessions);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<any>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isAdmin) {
       router.push("/login");
     }
-    const stored = localStorage.getItem("sessions");
-    if (stored) {
-      setSessionList(JSON.parse(stored));
-    }
+    loadSessions();
   }, [isAdmin, router]);
+
+  const loadSessions = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('sessions')
+        .select('*')
+        .order('id', { ascending: true });
+      
+      if (error) throw error;
+      
+      if (data && data.length > 0) {
+        setSessionList(data);
+      } else {
+        // If no data in Supabase, seed with default sessions
+        await seedSessions();
+      }
+    } catch (error) {
+      console.error('Error loading sessions:', error);
+      // Fallback to localStorage or default
+      const stored = localStorage.getItem("sessions");
+      if (stored) {
+        setSessionList(JSON.parse(stored));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const seedSessions = async () => {
+    try {
+      const { error } = await supabase
+        .from('sessions')
+        .insert(defaultSessions);
+      
+      if (error) throw error;
+      setSessionList(defaultSessions);
+    } catch (error) {
+      console.error('Error seeding sessions:', error);
+      setSessionList(defaultSessions);
+    }
+  };
 
   const handleEdit = (session: any) => {
     setEditingId(session.id);
     setEditForm({ ...session });
   };
 
-  const handleSave = () => {
-    const updated = sessionList.map((s) =>
-      s.id === editingId ? editForm : s
-    );
-    setSessionList(updated);
-    localStorage.setItem("sessions", JSON.stringify(updated));
-    setEditingId(null);
-    setEditForm({});
+  const handleSave = async () => {
+    try {
+      const { error } = await supabase
+        .from('sessions')
+        .update(editForm)
+        .eq('id', editingId);
+      
+      if (error) throw error;
+      
+      const updated = sessionList.map((s) =>
+        s.id === editingId ? editForm : s
+      );
+      setSessionList(updated);
+      setEditingId(null);
+      setEditForm({});
+    } catch (error) {
+      console.error('Error saving session:', error);
+      alert('Gagal menyimpan session. Coba lagi.');
+    }
   };
 
   const handleCancel = () => {
@@ -46,15 +98,26 @@ export default function AdminDashboard() {
     setEditForm({});
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm("Are you sure you want to delete this session?")) {
-      const updated = sessionList.filter((s) => s.id !== id);
-      setSessionList(updated);
-      localStorage.setItem("sessions", JSON.stringify(updated));
+      try {
+        const { error } = await supabase
+          .from('sessions')
+          .delete()
+          .eq('id', id);
+        
+        if (error) throw error;
+        
+        const updated = sessionList.filter((s) => s.id !== id);
+        setSessionList(updated);
+      } catch (error) {
+        console.error('Error deleting session:', error);
+        alert('Gagal menghapus session. Coba lagi.');
+      }
     }
   };
 
-  const handleAddNew = () => {
+  const handleAddNew = async () => {
     const newId = Math.max(...sessionList.map((s) => s.id)) + 1;
     const newSession = {
       id: newId,
@@ -69,9 +132,20 @@ export default function AdminDashboard() {
       image: "",
       materials: []
     };
-    setSessionList([...sessionList, newSession]);
-    localStorage.setItem("sessions", JSON.stringify([...sessionList, newSession]));
-    handleEdit(newSession);
+    
+    try {
+      const { error } = await supabase
+        .from('sessions')
+        .insert(newSession);
+      
+      if (error) throw error;
+      
+      setSessionList([...sessionList, newSession]);
+      handleEdit(newSession);
+    } catch (error) {
+      console.error('Error adding session:', error);
+      alert('Gagal menambah session. Coba lagi.');
+    }
   };
 
   const handleAddMaterial = () => {
@@ -140,6 +214,14 @@ export default function AdminDashboard() {
   };
 
   if (!isAdmin) return null;
+
+  if (loading) {
+    return (
+      <div className="bg-pink-50 min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-pink-50 min-h-screen">
