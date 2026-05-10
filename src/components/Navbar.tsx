@@ -19,7 +19,7 @@ export default function Navbar() {
     <div className="flex flex-col md:flex-row justify-between p-4 md:p-5 bg-white shadow gap-4">
       <h1 className="font-bold text-pink-500 text-center md:text-left">
         <Link href="/" className="hover:opacity-80">
-          PAPI-LEARN WEBINAR SERIES
+          PapiLearn & PapiRise Webinar Series
         </Link>
       </h1>
 
