@@ -9,7 +9,7 @@ export default function Home() {
       {/* HERO */}
       <div className="bg-gradient-to-r from-pink-100 to-purple-100 py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">
-          Cervical Cancer Webinar Series
+          PAPI-LEARN WEBINAR SERIES
         </h1>
 
         <p className="text-gray-600 max-w-xl mx-auto mb-6">
@@ -21,7 +21,7 @@ export default function Home() {
           href="/detail"
           className="bg-primary text-white px-6 py-3 rounded-xl"
         >
-          Papilearn-LMS
+          PAPI-LEARN-LMS
         </Link>
       </div>
 
