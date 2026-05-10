@@ -81,8 +81,12 @@ export default function CompanyProfile() {
                 </p>
               </div>
 
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-gray-700 mb-3">Company Video</h3>
+              </div>
+
               {besinsVideoUrl ? (
-                <div className="w-full h-80 rounded-lg overflow-hidden">
+                <div className="w-full h-[500px] rounded-lg overflow-hidden">
                   <iframe
                     src={getGoogleDrivePreviewUrl(besinsVideoUrl)}
                     className="w-full h-full"
@@ -90,7 +94,7 @@ export default function CompanyProfile() {
                   ></iframe>
                 </div>
               ) : (
-                <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                <div className="w-full h-[500px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                   <div className="text-center">
                     <p className="text-gray-500 font-semibold">Video Placeholder</p>
                     <p className="text-gray-400 text-sm">Add Google Drive link in code</p>
@@ -156,8 +160,12 @@ export default function CompanyProfile() {
                 </p>
               </div>
 
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-gray-700 mb-3">Company Video</h3>
+              </div>
+
               {dopamineVideoUrl ? (
-                <div className="w-full h-80 rounded-lg overflow-hidden">
+                <div className="w-full h-[500px] rounded-lg overflow-hidden">
                   <iframe
                     src={getGoogleDrivePreviewUrl(dopamineVideoUrl)}
                     className="w-full h-full"
@@ -165,7 +173,7 @@ export default function CompanyProfile() {
                   ></iframe>
                 </div>
               ) : (
-                <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                <div className="w-full h-[500px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                   <div className="text-center">
                     <p className="text-gray-500 font-semibold">Video Placeholder</p>
                     <p className="text-gray-400 text-sm">Add Google Drive link in code</p>
