@@ -13,8 +13,7 @@ export default function Home() {
         </h1>
 
         <p className="text-gray-600 max-w-xl mx-auto mb-6">
-          Pelajari lebih dalam tentang kanker serviks, pencegahan,
-          dan pengobatan melalui 6 sesi bersama dokter ahli.
+          Join Papilearn & Papirise for a comprehensive learning journey on cervical cancer through 6 exclusive sessions led by expert doctors. Gain deeper insights into prevention, early detection, diagnosis, and the latest treatment approaches to better understand cervical cancer and its management.
         </p>
 
         <Link
