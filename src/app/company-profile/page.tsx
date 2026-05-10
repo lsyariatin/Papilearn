@@ -34,8 +34,17 @@ export default function CompanyProfile() {
             </div>
             
             <div className="p-8">
-              <div className="w-full h-64 bg-pink-100 rounded-lg flex items-center justify-center border-2 border-dashed border-pink-300 mb-6">
-                <div className="text-center">
+              <div className="w-full h-64 bg-white rounded-lg flex items-center justify-center border-2 border-dashed border-pink-300 mb-6">
+                <img
+                  src="/besins-logo.png"
+                  alt="Besins Healthcare Logo"
+                  className="max-h-full max-w-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+                <div className="text-center hidden">
                   <p className="text-pink-500 font-semibold">Image Placeholder</p>
                   <p className="text-pink-400 text-sm">Upload besins-logo.png to /public</p>
                 </div>
@@ -113,8 +122,17 @@ export default function CompanyProfile() {
             </div>
             
             <div className="p-8">
-              <div className="w-full h-64 bg-purple-100 rounded-lg flex items-center justify-center border-2 border-dashed border-purple-300 mb-6">
-                <div className="text-center">
+              <div className="w-full h-64 bg-white rounded-lg flex items-center justify-center border-2 border-dashed border-purple-300 mb-6">
+                <img
+                  src="/dopamine-logo.png"
+                  alt="Dopamine Medica Logo"
+                  className="max-h-full max-w-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+                <div className="text-center hidden">
                   <p className="text-purple-500 font-semibold">Image Placeholder</p>
                   <p className="text-purple-400 text-sm">Upload dopamine-logo.png to /public</p>
                 </div>
