@@ -9,7 +9,7 @@ export default function Home() {
       {/* HERO */}
       <div className="bg-gradient-to-r from-pink-100 to-purple-100 py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">
-          PAPI-LEARN WEBINAR SERIES
+          PapiLearn & PapiRise Webinar Series
         </h1>
 
         <p className="text-gray-600 max-w-xl mx-auto mb-6">
@@ -28,13 +28,11 @@ export default function Home() {
       {/* ABOUT */}
       <div className="p-10 max-w-5xl mx-auto text-center">
         <h2 className="text-2xl font-bold mb-4">
-          Tentang Webinar
+          About Webinar
         </h2>
 
         <p className="text-gray-600">
-          Webinar ini dirancang untuk memberikan edukasi lengkap
-          mengenai kanker serviks, mulai dari deteksi dini hingga
-          metode pengobatan modern termasuk terapi intravaginal.
+          Evidence-Based Clinical Webinar Series HPV & Cervical Lesion Management
         </p>
       </div>
 
