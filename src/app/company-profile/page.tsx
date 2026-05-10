@@ -1,8 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 
 export default function CompanyProfile() {
+  const [besinsVideoUrl, setBesinsVideoUrl] = useState("");
+  const [dopamineVideoUrl, setDopamineVideoUrl] = useState("");
+
+  const getGoogleDrivePreviewUrl = (url: string) => {
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) {
+      const fileId = match[1];
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+    return url;
+  };
+
   return (
     <div className="bg-pink-50 min-h-screen">
       <Navbar />
@@ -69,12 +82,32 @@ export default function CompanyProfile() {
                 </p>
               </div>
 
-              <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <div className="text-center">
-                  <p className="text-gray-500 font-semibold">Video Placeholder</p>
-                  <p className="text-gray-400 text-sm">Upload besins-video.mp4 to /public</p>
-                </div>
+              <div className="mb-4">
+                <label className="block font-semibold mb-1 text-sm text-gray-600">Besins Video URL (Google Drive Link)</label>
+                <input
+                  className="border p-2 w-full text-sm"
+                  placeholder="https://drive.google.com/file/d/..."
+                  value={besinsVideoUrl}
+                  onChange={(e) => setBesinsVideoUrl(e.target.value)}
+                />
               </div>
+
+              {besinsVideoUrl ? (
+                <div className="w-full h-80 rounded-lg overflow-hidden">
+                  <iframe
+                    src={getGoogleDrivePreviewUrl(besinsVideoUrl)}
+                    className="w-full h-full"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                  <div className="text-center">
+                    <p className="text-gray-500 font-semibold">Video Placeholder</p>
+                    <p className="text-gray-400 text-sm">Paste Google Drive link above to display video</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -134,12 +167,32 @@ export default function CompanyProfile() {
                 </p>
               </div>
 
-              <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <div className="text-center">
-                  <p className="text-gray-500 font-semibold">Video Placeholder</p>
-                  <p className="text-gray-400 text-sm">Upload dopamine-video.mp4 to /public</p>
-                </div>
+              <div className="mb-4">
+                <label className="block font-semibold mb-1 text-sm text-gray-600">Dopamine Video URL (Google Drive Link)</label>
+                <input
+                  className="border p-2 w-full text-sm"
+                  placeholder="https://drive.google.com/file/d/..."
+                  value={dopamineVideoUrl}
+                  onChange={(e) => setDopamineVideoUrl(e.target.value)}
+                />
               </div>
+
+              {dopamineVideoUrl ? (
+                <div className="w-full h-80 rounded-lg overflow-hidden">
+                  <iframe
+                    src={getGoogleDrivePreviewUrl(dopamineVideoUrl)}
+                    className="w-full h-full"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="w-full h-80 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                  <div className="text-center">
+                    <p className="text-gray-500 font-semibold">Video Placeholder</p>
+                    <p className="text-gray-400 text-sm">Paste Google Drive link above to display video</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
