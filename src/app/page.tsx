@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* ABOUT */}
       <div className="p-10 max-w-5xl mx-auto text-center">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="text-4xl font-bold mb-4">
           About Webinar
         </h2>
 
