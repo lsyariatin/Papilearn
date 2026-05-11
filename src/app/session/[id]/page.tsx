@@ -49,9 +49,13 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
   const getYouTubeWatchUrl = (embedUrl: string) => {
     if (embedUrl.includes('youtube.com/embed/')) {
       const videoId = embedUrl.split('/embed/')[1].split('?')[0];
-      return `https://www.youtube.com/watch?v=${videoId}`;
+      return {
+        watchUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+        videoId: videoId
+      };
     }
-    return embedUrl;
+    return { watchUrl: embedUrl, thumbnailUrl: null, videoId: null };
   };
 
   const getGoogleDrivePreviewUrl = (url: string) => {
@@ -123,22 +127,33 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
         {session.video && (
           <div className="mb-6">
             {session.video.includes('youtube.com') || session.video.includes('youtu.be') ? (
-              <div
-                className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black cursor-pointer group"
-                onClick={() => window.open(getYouTubeWatchUrl(session.video), '_blank')}
-              >
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 group-hover:bg-gray-800 transition">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
-                      <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+              (() => {
+                const youtubeData = getYouTubeWatchUrl(session.video);
+                return (
+                  <div
+                    className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black cursor-pointer group"
+                    onClick={() => window.open(youtubeData.watchUrl, '_blank')}
+                  >
+                    {youtubeData.thumbnailUrl ? (
+                      <img
+                        src={youtubeData.thumbnailUrl}
+                        alt="Video thumbnail"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    ) : null}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition">
+                      <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                        <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
                     </div>
-                    <p className="text-white font-semibold text-lg">Watch on YouTube</p>
-                    <p className="text-gray-400 text-sm">Click to open in new tab</p>
                   </div>
-                </div>
-              </div>
+                );
+              })()
             ) : (
               <iframe
                 className="w-full h-[400px] rounded-xl"
