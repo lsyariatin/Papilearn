@@ -126,6 +126,7 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
         {/* VIDEO */}
         {session.video && (
           <div className="mb-6">
+            <h3 className="text-xl font-bold mb-4 text-gray-700">Webinar Recording</h3>
             {session.video.includes('youtube.com') || session.video.includes('youtu.be') ? (
               (() => {
                 const youtubeData = getYouTubeWatchUrl(session.video);
@@ -134,16 +135,6 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
                     className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black cursor-pointer group"
                     onClick={() => window.open(youtubeData.watchUrl, '_blank')}
                   >
-                    {youtubeData.thumbnailUrl ? (
-                      <img
-                        src={youtubeData.thumbnailUrl}
-                        alt="Video thumbnail"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    ) : null}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition">
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
                         <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
