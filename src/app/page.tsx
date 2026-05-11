@@ -9,11 +9,11 @@ export default function Home() {
       {/* HERO */}
       <div className="bg-gradient-to-r from-pink-100 to-purple-100 py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">
-          PapiLearn & PapiRise Webinar Series
+          PapiLearn & PapiAdvance Webinar Series
         </h1>
 
         <p className="text-gray-600 max-w-xl mx-auto mb-6">
-          Join Papilearn & Papirise for a comprehensive learning journey on cervical cancer through 6 exclusive sessions led by expert doctors. Gain deeper insights into prevention, early detection, diagnosis, and the latest treatment approaches to better understand cervical cancer and its management.
+          Join Papilearn & PapiAdvance for a comprehensive learning journey on cervical cancer through 6 exclusive sessions led by expert doctors. Gain deeper insights into prevention, early detection, diagnosis, and the latest treatment approaches to better understand cervical cancer and its management.
         </p>
 
         <Link
