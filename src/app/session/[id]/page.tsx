@@ -112,11 +112,15 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
         </p>
 
         {/* VIDEO */}
-        <iframe
-          className="w-full h-[400px] rounded-xl mb-6"
-          src={session.video}
-          allowFullScreen
-        ></iframe>
+        {session.video && (
+          <iframe
+            className="w-full h-[400px] rounded-xl mb-6"
+            src={session.video}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        )}
 
         {/* MATERIAL */}
         <div className="mb-6">
