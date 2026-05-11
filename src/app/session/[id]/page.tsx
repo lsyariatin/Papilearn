@@ -113,13 +113,26 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
 
         {/* VIDEO */}
         {session.video && (
-          <iframe
-            className="w-full h-[400px] rounded-xl mb-6"
-            src={session.video}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+          <div className="mb-6">
+            {session.video.includes('youtube.com') || session.video.includes('youtu.be') ? (
+              <div className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={session.video}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="YouTube video player"
+                ></iframe>
+              </div>
+            ) : (
+              <iframe
+                className="w-full h-[400px] rounded-xl"
+                src={session.video}
+                allowFullScreen
+              ></iframe>
+            )}
+          </div>
         )}
 
         {/* MATERIAL */}
