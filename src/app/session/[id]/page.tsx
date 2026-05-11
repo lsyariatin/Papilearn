@@ -47,8 +47,26 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
   };
 
   const getYouTubeWatchUrl = (embedUrl: string) => {
+    // If it's already a watch URL, return it as is
+    if (embedUrl.includes('youtube.com/watch?v=')) {
+      return {
+        watchUrl: embedUrl,
+        thumbnailUrl: null,
+        videoId: embedUrl.split('v=')[1]?.split('&')[0]
+      };
+    }
+    // Convert embed URL to watch URL
     if (embedUrl.includes('youtube.com/embed/')) {
       const videoId = embedUrl.split('/embed/')[1].split('?')[0];
+      return {
+        watchUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+        videoId: videoId
+      };
+    }
+    // Convert short URL to watch URL
+    if (embedUrl.includes('youtu.be/')) {
+      const videoId = embedUrl.split('youtu.be/')[1].split('?')[0];
       return {
         watchUrl: `https://www.youtube.com/watch?v=${videoId}`,
         thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
@@ -133,7 +151,10 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
                 return (
                   <div
                     className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black cursor-pointer group"
-                    onClick={() => window.open(youtubeData.watchUrl, '_blank')}
+                    onClick={() => {
+                      const url = youtubeData.watchUrl;
+                      window.open(url, '_blank', 'noopener,noreferrer');
+                    }}
                   >
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition">
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
