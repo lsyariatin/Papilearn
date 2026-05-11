@@ -46,6 +46,14 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
     }
   };
 
+  const getYouTubeWatchUrl = (embedUrl: string) => {
+    if (embedUrl.includes('youtube.com/embed/')) {
+      const videoId = embedUrl.split('/embed/')[1].split('?')[0];
+      return `https://www.youtube.com/watch?v=${videoId}`;
+    }
+    return embedUrl;
+  };
+
   const getGoogleDrivePreviewUrl = (url: string) => {
     const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
     if (match) {
@@ -115,15 +123,21 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
         {session.video && (
           <div className="mb-6">
             {session.video.includes('youtube.com') || session.video.includes('youtu.be') ? (
-              <div className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black">
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src={session.video}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="YouTube video player"
-                ></iframe>
+              <div
+                className="relative w-full h-[400px] rounded-xl overflow-hidden bg-black cursor-pointer group"
+                onClick={() => window.open(getYouTubeWatchUrl(session.video), '_blank')}
+              >
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 group-hover:bg-gray-800 transition">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+                      <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                    <p className="text-white font-semibold text-lg">Watch on YouTube</p>
+                    <p className="text-gray-400 text-sm">Click to open in new tab</p>
+                  </div>
+                </div>
               </div>
             ) : (
               <iframe
