@@ -156,6 +156,16 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
                       window.open(url, '_blank', 'noopener,noreferrer');
                     }}
                   >
+                    {youtubeData.thumbnailUrl && (
+                      <img
+                        src={youtubeData.thumbnailUrl}
+                        alt="Video thumbnail"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    )}
                     <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/30 transition">
                       <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
                         <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
