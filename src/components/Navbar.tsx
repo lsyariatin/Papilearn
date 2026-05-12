@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
-  const { isAdmin, logout } = useAuth();
+  const { isAdmin, user, logout } = useAuth();
   const pathname = usePathname();
 
   const getLinkClass = (href: string) => {
@@ -25,18 +25,19 @@ export default function Navbar() {
 
       <div className="flex flex-wrap justify-center gap-2 md:gap-4 text-sm md:text-base">
         <Link href="/" className={getLinkClass("/")}>Home</Link>
-        <Link href="/detail" className={getLinkClass("/detail")}>Papi-Learn Series</Link>
-        <Link href="/company-profile" className={getLinkClass("/company-profile")}>Company Profile</Link>
-        {isAdmin && (
+        {(isAdmin || user) ? (
           <>
-            <Link href="/admin" className={getLinkClass("/admin")}>Admin</Link>
+            <Link href="/detail" className={getLinkClass("/detail")}>Papi-Learn Series</Link>
+            <Link href="/company-profile" className={getLinkClass("/company-profile")}>Company Profile</Link>
+            {isAdmin && <Link href="/admin" className={getLinkClass("/admin")}>Admin</Link>}
             <button onClick={logout} className="text-red-500 hover:text-red-700">
               Logout
             </button>
           </>
-        )}
-        {!isAdmin && (
-          <Link href="/login" className={getLinkClass("/login")}>Login</Link>
+        ) : (
+          <>
+            <Link href="/login" className={getLinkClass("/login")}>Login/Register</Link>
+          </>
         )}
       </div>
     </div>

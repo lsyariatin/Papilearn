@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SessionCard from "@/components/SessionCard";
 import { supabase } from "@/lib/supabase";
 import { sessions as defaultSessions } from "@/data/mock";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Detail() {
   const [sessions, setSessions] = useState(defaultSessions);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadSessions();
-  }, []);
+  const { user, isAdmin } = useAuth();
+  const router = useRouter();
 
   const loadSessions = async () => {
     setLoading(true);
@@ -43,6 +43,22 @@ export default function Detail() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Redirect to login if not logged in
+    if (!user && !isAdmin) {
+      router.push("/login");
+    }
+  }, [user, isAdmin, router]);
+
+  useEffect(() => {
+    loadSessions();
+  }, []);
+
+  // Redirect to login if not logged in
+  if (!user && !isAdmin) {
+    return null;
+  }
 
   if (loading) {
     return (

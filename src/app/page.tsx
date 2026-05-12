@@ -1,7 +1,13 @@
+"use client";
+
+import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function Home() {
+  const { user, isAdmin } = useAuth();
+  const isLoggedIn = user || isAdmin;
+
   return (
     <div>
       <Navbar />
@@ -17,10 +23,10 @@ export default function Home() {
         </p>
 
         <Link
-          href="/detail"
+          href={isLoggedIn ? "/detail" : "/login"}
           className="bg-primary text-white px-6 py-3 rounded-xl"
         >
-          Webinar Series
+          {isLoggedIn ? "Webinar Series" : "Login/Register"}
         </Link>
       </div>
 

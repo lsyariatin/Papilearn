@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/lib/supabase";
 import { sessions as defaultSessions } from "@/data/mock";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SessionDetail({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const [sessions, setSessions] = useState(defaultSessions);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user, isAdmin } = useAuth();
+  const router = useRouter();
   const session = sessions.find((s) => s.id === Number(resolvedParams.id));
-
-  useEffect(() => {
-    loadSessions();
-  }, [resolvedParams.id]);
 
   const loadSessions = async () => {
     setLoading(true);
@@ -45,6 +45,22 @@ export default function SessionDetail({ params }: { params: Promise<{ id: string
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Redirect to login if not logged in
+    if (!user && !isAdmin) {
+      router.push("/login");
+    }
+  }, [user, isAdmin, router]);
+
+  useEffect(() => {
+    loadSessions();
+  }, [resolvedParams.id]);
+
+  // Redirect to login if not logged in
+  if (!user && !isAdmin) {
+    return null;
+  }
 
   const getYouTubeWatchUrl = (embedUrl: string) => {
     // If it's already a watch URL, return it as is
