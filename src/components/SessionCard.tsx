@@ -12,7 +12,7 @@ export default function SessionCard({ session }: { session: any }) {
     >
       <img
         src={session.image || "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=200&fit=crop"}
-        className="w-full h-40 object-cover"
+        className="w-full h-72 object-cover"
         alt={session.title}
       />
 
