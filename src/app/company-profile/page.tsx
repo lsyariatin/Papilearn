@@ -1,9 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 
 export default function CompanyProfile() {
-  const besinsVideoUrl = ""; // Add Google Drive link here
+  const [currentBesinsVideo, setCurrentBesinsVideo] = useState(0);
+  const besinsVideoUrls = [
+    "https://drive.google.com/file/d/1jer1DLpt_FJ6-sWlyfRcuBAvsj7_fXLk/view?usp=sharing", // Add first Google Drive link here
+    "https://drive.google.com/file/d/1NoRopgc_91PByugmfWjHozjgdwuew6FC/view?usp=sharing"  // Add second Google Drive link here
+  ];
   const dopamineVideoUrl = "https://drive.google.com/file/d/1x8xea_LN28IWvmmeV2rmuiRTgvrjfnEs/view?usp=drive_link"; // Add Google Drive link here
 
   const getGoogleDrivePreviewUrl = (url: string) => {
@@ -13,6 +18,14 @@ export default function CompanyProfile() {
       return `https://drive.google.com/file/d/${fileId}/preview`;
     }
     return url;
+  };
+
+  const nextBesinsVideo = () => {
+    setCurrentBesinsVideo((prev) => (prev + 1) % besinsVideoUrls.length);
+  };
+
+  const prevBesinsVideo = () => {
+    setCurrentBesinsVideo((prev) => (prev - 1 + besinsVideoUrls.length) % besinsVideoUrls.length);
   };
 
   return (
@@ -51,42 +64,39 @@ export default function CompanyProfile() {
               </div>
 
               <p className="text-gray-700 mb-6 text-lg leading-relaxed">
-                Besins Healthcare Indonesia adalah perusahaan farmasi global yang berkomitmen
-                untuk meningkatkan kesehatan wanita melalui inovasi dalam pengobatan kanker serviks
-                dan penyakit kesehatan reproduksi lainnya. Dengan sejarah lebih dari 90 tahun,
-                Besins terus menjadi pioneer dalam pengembangan terapi kanker serviks dan HPV.
+                Besins Healthcare is a global pharmaceutical company primarily focused on endocrine treatments for conditions including menopause and testosterone deficiency. We understand what matters most to every individual and their family — living life on their own terms and fulfilling their aspirations and dreams.
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div className="bg-pink-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-pink-600 mb-2">Visi</h3>
+                  <h3 className="font-bold text-pink-600 mb-2">Vision</h3>
                   <p className="text-gray-600 text-sm">
-                    Menjadi leader global dalam kesehatan wanita melalui inovasi dan edukasi
+                    As a pioneer in the field of reproductive hormones for both women and men, we are driven by our passion to help people become the best version of themselves, achieve their dreams, and live life to the fullest. We believe that we are stronger together when we provide meaningful benefits and sustainable solutions for healthcare providers, payers, and patients. We achieve this through an entrepreneurial mindset rooted in our strong manufacturing network and supported by the expansion of new, state-of-the-art production facilities.
                   </p>
                 </div>
                 <div className="bg-pink-50 p-4 rounded-lg">
-                  <h3 className="font-bold text-pink-600 mb-2">Misi</h3>
+                  <h3 className="font-bold text-pink-600 mb-2">Mission</h3>
                   <p className="text-gray-600 text-sm">
-                    Memberikan solusi kesehatan berkualitas tinggi untuk meningkatkan kualitas hidup
+                    to continuously innovate and provide state of the art endocrine and reproductive healthcare solutions for women and men worldwide. By leveraging our historical expertise and pioneering technologies in hormone therapy, we are committed to delivering safe, effective, and high quality treatments to restore patient well being, while serving as a trusted partner to healthcare providers.
                   </p>
                 </div>
               </div>
 
               <div className="space-y-2 text-gray-600 mb-6">
                 <p className="flex items-center gap-2">
-                  <span className="text-pink-500">✓</span> Berdiri sejak 1929 di Belgia
+                  <span className="text-pink-500">✓</span> Established in 1885 in France
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-pink-500">✓</span> Leader dalam pengobatan kanker serviks dan HPV
+                  <span className="text-pink-500">✓</span> A global leader in the latest hormone therapy for gynecology and andrology
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-pink-500">✓</span> Hadir di lebih dari 100 negara
+                  <span className="text-pink-500">✓</span> Provides healthcare services for both men and women, focusing on gynecology, fertility, obstetrics, endocrinology, and hormone deficiency therapy for women and men
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-pink-500">✓</span> Fokus pada kesehatan wanita dan reproduksi
+                  <span className="text-pink-500">✓</span> Pioneer and inventor of transdermal gel-based formulations and bioavailable micronized progesterone
                 </p>
                 <p className="flex items-center gap-2">
-                  <span className="text-pink-500">✓</span> Riset dan pengembangan berkelanjutan
+                  <span className="text-pink-500">✓</span> Fifth-generation global family-owned company headquartered in Monaco
                 </p>
               </div>
 
@@ -94,22 +104,59 @@ export default function CompanyProfile() {
                 <h3 className="text-xl font-bold text-gray-700 mb-3">Company Video</h3>
               </div>
 
-              {besinsVideoUrl ? (
-                <div className="w-full h-[500px] rounded-lg overflow-hidden">
-                  <iframe
-                    src={getGoogleDrivePreviewUrl(besinsVideoUrl)}
-                    className="w-full h-full"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              ) : (
-                <div className="w-full h-[500px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                  <div className="text-center">
-                    <p className="text-gray-500 font-semibold">Video Placeholder</p>
-                    <p className="text-gray-400 text-sm">Add Google Drive link in code</p>
+              <div className="relative">
+                {/* Video Navigation Buttons */}
+                {besinsVideoUrls.some(url => url) && (
+                  <>
+                    <button
+                      onClick={prevBesinsVideo}
+                      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-pink-50 transition-colors -translate-x-2"
+                    >
+                      <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={nextBesinsVideo}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-pink-50 transition-colors translate-x-2"
+                    >
+                      <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+
+                {/* Video Indicators */}
+                {besinsVideoUrls.some(url => url) && (
+                  <div className="flex justify-center gap-2 mb-4">
+                    {besinsVideoUrls.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentBesinsVideo(index)}
+                        className={`w-2 h-2 rounded-full transition-colors ${currentBesinsVideo === index ? 'bg-pink-500' : 'bg-pink-200'}`}
+                      />
+                    ))}
                   </div>
-                </div>
-              )}
+                )}
+
+                {besinsVideoUrls[currentBesinsVideo] ? (
+                  <div className="w-full h-[500px] rounded-lg overflow-hidden">
+                    <iframe
+                      src={getGoogleDrivePreviewUrl(besinsVideoUrls[currentBesinsVideo])}
+                      className="w-full h-full"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                ) : (
+                  <div className="w-full h-[500px] bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <div className="text-center">
+                      <p className="text-gray-500 font-semibold">Video Placeholder</p>
+                      <p className="text-gray-400 text-sm">Add Google Drive link in code</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
