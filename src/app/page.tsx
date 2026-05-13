@@ -7,13 +7,35 @@ import Link from "next/link";
 export default function Home() {
   const { user, isAdmin } = useAuth();
   const isLoggedIn = user || isAdmin;
+  const heroVideoUrl = "https://drive.google.com/file/d/1whNgxlxSXHoPLJHtkJ81aGNLp4Pn21eJ/view?usp=sharing";
+
+  const getGoogleDrivePreviewUrl = (url: string) => {
+    const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) {
+      const fileId = match[1];
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+    return url;
+  };
 
   return (
     <div>
       <Navbar />
 
       {/* HERO */}
-      <div className="bg-gradient-to-r from-pink-100 to-purple-100 py-20 text-center">
+      <div className="bg-gradient-to-r from-pink-100 to-purple-100 pt-5 pb-20 text-center">
+        {/* Organizers Logos */}
+        <div className="flex justify-center items-center mb-4 mt-0">
+          <img
+            src="/organizers.png"
+            alt="Organizers"
+            className="h-36 w-auto object-contain"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
+
         <h1 className="text-4xl font-bold mb-4">
           PapiLearn & PapiAdvance Webinar Series
         </h1>
@@ -41,13 +63,23 @@ export default function Home() {
         </p>
       </div>
 
-      {/* IMAGE SECTION */}
-      <div className="flex justify-center pb-10">
-        <img
-          src="/hero.jpeg"
-          className="rounded-xl shadow w-full h-auto"
-          alt="About"
-        />
+      {/* VIDEO SECTION */}
+      <div className="flex justify-center pb-10 px-4">
+        {heroVideoUrl ? (
+          <div className="w-full max-w-5xl rounded-xl shadow overflow-hidden">
+            <iframe
+              src={getGoogleDrivePreviewUrl(heroVideoUrl)}
+              className="w-full h-auto aspect-video"
+              allowFullScreen
+            ></iframe>
+          </div>
+        ) : (
+          <img
+            src="/hero.jpeg"
+            className="rounded-xl shadow w-full h-auto max-w-5xl"
+            alt="About"
+          />
+        )}
       </div>
     </div>
   );
