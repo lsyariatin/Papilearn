@@ -27,7 +27,7 @@ export default function Home() {
         {/* Organizers Logos */}
         <div className="flex justify-center items-center mb-4 mt-0">
           <img
-            src="/organizers.png"
+            src="/Organizers.png"
             alt="Organizers"
             className="h-36 w-auto object-contain"
             onError={(e) => {
