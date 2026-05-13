@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
 export default function Home() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   const isLoggedIn = user || isAdmin;
   const heroVideoUrl = "https://drive.google.com/file/d/1whNgxlxSXHoPLJHtkJ81aGNLp4Pn21eJ/view?usp=sharing";
 
@@ -17,6 +17,14 @@ export default function Home() {
     }
     return url;
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-pink-50 min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div>

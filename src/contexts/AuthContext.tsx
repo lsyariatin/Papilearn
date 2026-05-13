@@ -15,6 +15,7 @@ interface User {
 interface AuthContextType {
   isAdmin: boolean;
   user: User | null;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
   registerUser: (email: string, password: string, name: string, nip: string) => Promise<boolean>;
@@ -25,6 +26,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedAuth = localStorage.getItem("isAdmin");
@@ -33,6 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -122,7 +125,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAdmin, user, login, logout, registerUser }}>
+    <AuthContext.Provider value={{ isAdmin, user, isLoading, login, logout, registerUser }}>
       {children}
     </AuthContext.Provider>
   );
