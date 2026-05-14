@@ -6,11 +6,12 @@ import Navbar from "@/components/Navbar";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [nip, setNip] = useState("");
-  const [no, setNo] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    nip: ""
+  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const { registerUser } = useAuth();
@@ -21,12 +22,12 @@ export default function Register() {
     setError("");
     setSuccess(false);
 
-    if (!email || !password || !name || !nip || !no) {
+    if (!formData.email || !formData.password || !formData.name || !formData.nip) {
       setError("Semua field harus diisi");
       return;
     }
 
-    const result = await registerUser(email, password, name, nip, no);
+    const result = await registerUser(formData.email, formData.password, formData.name, formData.nip);
     
     if (result) {
       setSuccess(true);
@@ -62,40 +63,32 @@ export default function Register() {
                 className="border p-2 mb-2 w-full"
                 placeholder="Email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
               />
               <input
                 className="border p-2 mb-2 w-full"
                 placeholder="Password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 required
               />
               <input
                 className="border p-2 mb-2 w-full"
                 placeholder="Nama Lengkap"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
               />
               <input
                 className="border p-2 mb-2 w-full"
-                placeholder="NIP"
+                placeholder="NIP/NIK"
                 type="text"
-                value={nip}
-                onChange={(e) => setNip(e.target.value)}
-                required
-              />
-              <input
-                className="border p-2 mb-2 w-full"
-                placeholder="No."
-                type="text"
-                value={no}
-                onChange={(e) => setNo(e.target.value)}
+                value={formData.nip}
+                onChange={(e) => setFormData({ ...formData, nip: e.target.value })}
                 required
               />
 

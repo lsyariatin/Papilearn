@@ -368,7 +368,7 @@ export default function AdminDashboard() {
                       <p className="font-semibold">{user.name}</p>
                       <p className="text-sm text-gray-600">{user.email}</p>
                       <p className="text-sm text-gray-500">No: {user.no || '-'}</p>
-                      <p className="text-sm text-gray-500">NIP: {user.nip}</p>
+                      <p className="text-sm text-gray-500">NIP/NIK: {user.nip}</p>
                       <p className="text-xs text-gray-400">Registered: {new Date(user.created_at).toLocaleDateString()}</p>
                     </div>
                     <div className="flex gap-2">
@@ -408,7 +408,7 @@ export default function AdminDashboard() {
                       <th className="text-left p-3">No.</th>
                       <th className="text-left p-3">Name</th>
                       <th className="text-left p-3">Email</th>
-                      <th className="text-left p-3">NIP</th>
+                      <th className="text-left p-3">NIP/NIK</th>
                       <th className="text-left p-3">Role</th>
                       <th className="text-left p-3">Status</th>
                       <th className="text-left p-3">Last Access</th>

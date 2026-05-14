@@ -19,7 +19,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
-  registerUser: (email: string, password: string, name: string, nip: string, no: string) => Promise<boolean>;
+  registerUser: (email: string, password: string, name: string, nip: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -134,7 +134,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("lastActivity");
   };
 
-  const registerUser = async (email: string, password: string, name: string, nip: string, no: string) => {
+  const registerUser = async (email: string, password: string, name: string, nip: string) => {
     try {
       // Check if email already exists
       const { data: existingUser, error: checkError } = await supabase
@@ -143,24 +143,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .eq('email', email)
         .single();
 
-      if (existingUser) {
-        return false; // Email already exists
+      if (checkError && checkError.code !== 'PGRST116') {
+        throw checkError;
       }
 
-      // Insert new user with status 'pending'
+      if (existingUser) {
+        return false;
+      }
+
+      // Get the last no from database
+      const { data: lastUser } = await supabase
+        .from('users')
+        .select('no')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      let nextNo = "1";
+      if (lastUser && lastUser.no) {
+        const lastNo = parseInt(lastUser.no);
+        if (!isNaN(lastNo)) {
+          nextNo = (lastNo + 1).toString();
+        }
+      }
+
+      // Insert new user with pending status and auto-generated no
       const { error: insertError } = await supabase
         .from('users')
-        .insert([
-          {
-            no,
-            email,
-            password,
-            name,
-            nip,
-            role: 'user',
-            status: 'pending'
-          }
-        ]);
+        .insert({
+          email,
+          password,
+          name,
+          nip,
+          no: nextNo,
+          role: 'user',
+          status: 'pending'
+        });
 
       if (insertError) throw insertError;
 
