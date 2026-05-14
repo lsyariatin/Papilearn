@@ -10,6 +10,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [nip, setNip] = useState("");
+  const [no, setNo] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const { registerUser } = useAuth();
@@ -20,12 +21,12 @@ export default function Register() {
     setError("");
     setSuccess(false);
 
-    if (!email || !password || !name || !nip) {
+    if (!email || !password || !name || !nip || !no) {
       setError("Semua field harus diisi");
       return;
     }
 
-    const result = await registerUser(email, password, name, nip);
+    const result = await registerUser(email, password, name, nip, no);
     
     if (result) {
       setSuccess(true);
@@ -87,6 +88,14 @@ export default function Register() {
                 type="text"
                 value={nip}
                 onChange={(e) => setNip(e.target.value)}
+                required
+              />
+              <input
+                className="border p-2 mb-2 w-full"
+                placeholder="No."
+                type="text"
+                value={no}
+                onChange={(e) => setNo(e.target.value)}
                 required
               />
 

@@ -11,7 +11,7 @@ const CLOUDINARY_CLOUD_NAME = "drlopxaai";
 const CLOUDINARY_UPLOAD_PRESET = "webinar_upload";
 
 export default function AdminDashboard() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, isLoading } = useAuth();
   const router = useRouter();
   const [sessionList, setSessionList] = useState(defaultSessions);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -24,12 +24,14 @@ export default function AdminDashboard() {
   const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isAdmin && !isLoading) {
       router.push("/login");
     }
-    loadSessions();
-    loadUsers();
-  }, [isAdmin, router]);
+    if (!isLoading) {
+      loadSessions();
+      loadUsers();
+    }
+  }, [isAdmin, isLoading, router]);
 
   const loadSessions = async () => {
     setLoading(true);
@@ -365,6 +367,7 @@ export default function AdminDashboard() {
                     <div>
                       <p className="font-semibold">{user.name}</p>
                       <p className="text-sm text-gray-600">{user.email}</p>
+                      <p className="text-sm text-gray-500">No: {user.no || '-'}</p>
                       <p className="text-sm text-gray-500">NIP: {user.nip}</p>
                       <p className="text-xs text-gray-400">Registered: {new Date(user.created_at).toLocaleDateString()}</p>
                     </div>
@@ -402,6 +405,7 @@ export default function AdminDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
+                      <th className="text-left p-3">No.</th>
                       <th className="text-left p-3">Name</th>
                       <th className="text-left p-3">Email</th>
                       <th className="text-left p-3">NIP</th>
@@ -415,6 +419,7 @@ export default function AdminDashboard() {
                   <tbody>
                     {users.map((user) => (
                       <tr key={user.id} className="border-b">
+                        <td className="p-3">{user.no || '-'}</td>
                         <td className="p-3">{user.name}</td>
                         <td className="p-3">{user.email}</td>
                         <td className="p-3">{user.nip}</td>

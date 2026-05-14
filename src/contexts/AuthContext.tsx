@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 
 interface User {
   id: number;
+  no: string;
   email: string;
   name: string;
   nip: string;
@@ -18,7 +19,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
-  registerUser: (email: string, password: string, name: string, nip: string) => Promise<boolean>;
+  registerUser: (email: string, password: string, name: string, nip: string, no: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +28,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const inactivityTimeout = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+  // Check inactivity and logout if timeout exceeded
+  useEffect(() => {
+    const checkInactivity = () => {
+      const lastActivity = localStorage.getItem("lastActivity");
+      if (lastActivity) {
+        const elapsed = Date.now() - parseInt(lastActivity);
+        if (elapsed > inactivityTimeout) {
+          logout();
+        }
+      }
+    };
+
+    checkInactivity();
+
+    // Update last activity on user interactions
+    const updateActivity = () => {
+      localStorage.setItem("lastActivity", Date.now().toString());
+    };
+
+    // Listen for user activity
+    const events = ["mousedown", "keydown", "scroll", "touchstart"];
+    events.forEach(event => {
+      window.addEventListener(event, updateActivity);
+    });
+
+    // Set activity on login
+    if (isAdmin || user) {
+      updateActivity();
+    }
+
+    // Check inactivity periodically
+    const interval = setInterval(checkInactivity, 60000); // Check every minute
+
+    return () => {
+      events.forEach(event => {
+        window.removeEventListener(event, updateActivity);
+      });
+      clearInterval(interval);
+    };
+  }, [isAdmin, user]);
 
   useEffect(() => {
     const storedAuth = localStorage.getItem("isAdmin");
@@ -43,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (email === "admin@papilocare.com" && password === "@Dopaminemedica123") {
       setIsAdmin(true);
       localStorage.setItem("isAdmin", "true");
+      localStorage.setItem("lastActivity", Date.now().toString());
       return { success: true, message: "" };
     }
 
@@ -71,6 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         setUser(data);
         localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("lastActivity", Date.now().toString());
         return { success: true, message: "" };
       }
 
@@ -86,9 +131,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem("isAdmin");
     localStorage.removeItem("user");
+    localStorage.removeItem("lastActivity");
   };
 
-  const registerUser = async (email: string, password: string, name: string, nip: string) => {
+  const registerUser = async (email: string, password: string, name: string, nip: string, no: string) => {
     try {
       // Check if email already exists
       const { data: existingUser, error: checkError } = await supabase
@@ -106,6 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .from('users')
         .insert([
           {
+            no,
             email,
             password,
             name,

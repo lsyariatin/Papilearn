@@ -11,7 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function Detail() {
   const [sessions, setSessions] = useState(defaultSessions);
   const [loading, setLoading] = useState(true);
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isLoading } = useAuth();
   const router = useRouter();
 
   const loadSessions = async () => {
@@ -46,14 +46,23 @@ export default function Detail() {
 
   useEffect(() => {
     // Redirect to login if not logged in
-    if (!user && !isAdmin) {
+    if (!user && !isAdmin && !isLoading) {
       router.push("/login");
     }
-  }, [user, isAdmin, router]);
+  }, [user, isAdmin, isLoading, router]);
 
   useEffect(() => {
     loadSessions();
   }, []);
+
+  // Show loading while auth state is being loaded
+  if (isLoading) {
+    return (
+      <div className="bg-pink-50 min-h-screen flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   // Redirect to login if not logged in
   if (!user && !isAdmin) {
