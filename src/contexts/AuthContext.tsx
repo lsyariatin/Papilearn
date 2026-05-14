@@ -136,18 +136,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerUser = async (email: string, password: string, name: string, nip: string) => {
     try {
-      // Check if email already exists
+      // Check if email already exists (case-insensitive)
       const { data: existingUser, error: checkError } = await supabase
         .from('users')
         .select('email')
-        .eq('email', email)
-        .single();
+        .ilike('email', email)
+        .maybeSingle();
 
-      if (checkError && checkError.code !== 'PGRST116') {
+      if (checkError) {
+        console.error('Error checking email:', checkError);
         throw checkError;
       }
 
       if (existingUser) {
+        console.log('Email already exists:', email);
         return false;
       }
 
@@ -157,7 +159,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .select('no')
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       let nextNo = "1";
       if (lastUser && lastUser.no) {
@@ -180,7 +182,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           status: 'pending'
         });
 
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error('Error inserting user:', insertError);
+        throw insertError;
+      }
 
       return true;
     } catch (error) {
