@@ -136,16 +136,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const registerUser = async (email: string, password: string, name: string, nip: string) => {
     try {
-      // Check if email already exists (case-insensitive)
+      // Check if email already exists (exact match, case-sensitive)
       const { data: existingUser, error: checkError } = await supabase
         .from('users')
         .select('email')
-        .ilike('email', email)
+        .eq('email', email)
         .maybeSingle();
 
       if (checkError) {
         console.error('Error checking email:', checkError);
-        throw checkError;
+        return false;
       }
 
       if (existingUser) {
@@ -184,7 +184,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (insertError) {
         console.error('Error inserting user:', insertError);
-        throw insertError;
+        return false;
       }
 
       return true;
